@@ -76,15 +76,15 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 100%;
   margin-top: 3rem;
 }
 
 .card {
   margin: 1rem;
-  flex-basis: 45%;
+  flex-basis: 20%;
   padding: 1.5rem;
-  text-align: left;
+  text-align: center;
   color: inherit;
   text-decoration: none;
   border: 1px solid #eaeaea;
@@ -119,4 +119,13 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.countrySearch {
+  width: 100%;
+  display: block
+}
+.countrySearch input {
+  width: 100%;
+  display: block
 }
