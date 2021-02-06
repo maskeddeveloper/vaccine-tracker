@@ -1,43 +1,43 @@
 const fetch = require("node-fetch");
-export default async(req, res) => {
-   
-    const allDataEndpoint = process.env.VACS_ALL_DATA
+// api for all the world
+export default async (req, res) => {
+  const allDataEndpoint = process.env.VACS_ALL_DATA;
 
-    let response = await fetch(allDataEndpoint);
-    let data = await response.json();
-    let finalData = [];
-    let isoCodes = []
-   
-    data.forEach(element => {
-      isoCodes.push(element.iso_code)
-    });
-    
-    let finalIsoCodes = new Set(isoCodes)
-   
-    const latestData = new Date(
-      Math.max(...data.map((e) => new Date(e.date)))
+  let response = await fetch(allDataEndpoint);
+  let data = await response.json();
+  let finalData = [];
+  let isoCodes = [];
+
+  data.forEach((element) => {
+    isoCodes.push(element.iso_code);
+  });
+
+  let finalIsoCodes = new Set(isoCodes);
+
+  //convert set to array
+  var countriesLatestData = [];
+  //let finalIsoCodesArray = [...finalIsoCodes]
+  finalIsoCodes.forEach((iso) => {
+    //get data for each iso code
+    let curruntIsoData = data.filter((item) => item.iso_code == iso);
+
+    let latestDateForIso = new Date(
+      Math.max(...curruntIsoData.map((e) => new Date(e.date)))
     );
-    return res.json(latestData)
-    // const latestDate =
-    //   latestData.getFullYear() +
-    //   "-" +
-    //   latestData.getMonth() +
-    //   1 +
-    //   "-" +
-    //   latestData.getDate();
-    // console.log(latestDate);
-    // const latestDateData = data.filter(
-    //   (country) => country.date == latestDate
-    // );
-    // res.setHeader("Content-Type", "application/json");
-    // return res.json(latestDateData)
-  }
+    var latestDate;
+    latestDateForIso.setDate(latestDateForIso.getDate());
+    latestDate =
+      latestDateForIso.getFullYear() +
+      "-" +
+      ("0" + (latestDateForIso.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + latestDateForIso.getDate()).slice(-2);
 
-// get all data 
-
-
-// for each iso check the latest 
-
-//loop on each data get the iso and then 
+    const latestDateData = curruntIsoData.filter(
+      (country) => country.date == latestDate && country.iso_code == iso
+    );
+    countriesLatestData.push(latestDateData);
+  });
   
-  
+  return res.json(countriesLatestData);
+};

@@ -49,6 +49,14 @@ const {
         if (isStaging) return 'http://localhost:11639'
         return 'VACS_ALL_DATA:not (isDev,isProd && !isStaging,isProd && isStaging)'
       })(),
+      VACS_ALL_LOCATIONS: (() => {
+        if (isDev) return localDomain + '/api/vaccinations/locations/all'
+        if (isProd) {
+          return prodDomain + '/api/vaccinations/locations/all'
+        }
+        if (isStaging) return 'http://localhost:11639'
+        return 'VACS_ALL_DATA:not (isDev,isProd && !isStaging,isProd && isStaging)'
+      })(),
     }
   
     // next.config.js object

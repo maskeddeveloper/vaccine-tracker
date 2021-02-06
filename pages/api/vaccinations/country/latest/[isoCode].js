@@ -8,13 +8,15 @@ export default async(req, res) => {
     const latestData = new Date(
       Math.max(...data.map((e) => new Date(e.date)))
     );
-    const latestDate =
-      latestData.getFullYear() +
+    var latestDate;
+    latestData.setDate(latestData.getDate());
+    latestDate =
+    latestData.getFullYear() +
       "-" +
-      latestData.getMonth() +
-      1 +
+      ("0" + (latestData.getMonth() + 1)).slice(-2) +
       "-" +
-      latestData.getDate();
+      ("0" + latestData.getDate()).slice(-2);
+
     console.log(latestDate);
     const latestDateData = data.filter(
       (country) => country.date == latestDate
