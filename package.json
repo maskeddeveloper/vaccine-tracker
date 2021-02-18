@@ -18,9 +18,14 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-number-format": "^4.4.4",
+    "react-world-flags": "^1.4.0",
     "styled-components": "^5.2.1",
     "swr": "^0.4.1",
     "tailwindcss": "^2.0.2",
     "unfetch": "^4.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.4",
+    "postcss": "^8.2.5"
   }
 }

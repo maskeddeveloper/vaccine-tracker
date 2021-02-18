@@ -1,58 +1,90 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import useSWR from "swr";
-import fetch from "unfetch";
-import { request } from "graphql-request";
-import Footer from "../hoc/Footer";
-import Link from "next/link";
-
-export default function Home() {
-  const fetcher = (url) => fetch(url).then((r) => r.json());
-
-  const { data, error } = useSWR(
-    "https://restcountries.eu/rest/v2/all",
-    fetcher
-  );
-
+import SEO from "../components/SEO";
+import Footer from "../components/Footer";
+import Nav from "../components/Nav";
+import Card from "../components/Card";
+import CardCountainer from "../components/CardCountainer";
+import TestIcon from "../components/icons/TestIcon";
+import TableContainer from "../components/TableContainer";
+import NumberFormat from "react-number-format";
+export default function Home({ data, latest }) {
+ 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        {/* <h1 className={styles.title}>Covid-19 vaccinations Tracker</h1> */}
-
-        {error ? (
-          <div>failed to load</div>
-        ) : !data ? (
-          <div>loading...</div>
-        ) : (
-          //convert to a componenet
-          <div className={styles.grid}>
-            <div className="countrySearch">
-              <input placeholder="Search country..." />
-            </div>
-            {data.map((country) => {
-              return (
-                <div className={styles.card}>
-                  <Link href="/country/[alpha3Code]" as={`/country/${country.alpha3Code}`}>
-                  {/* <img
-                      className="countryFlag"
-                      src={
-                        "https://www.countryflags.io/" +
-                        country.alpha2Code +
-                        "/flat/64.png"
-                      }
-                    /> */}
-
-                    <h3>{country.name} </h3>
-                  </Link>
-                
-                </div>
-              );
-            })}
+    <>
+      <SEO />
+      <Nav />
+      <CardCountainer>
+      <div class="flex flex-col text-center w-full mb-20">
+            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Worldwide Coronavirus (COVID-19) Vaccinations</h1>
+            <p class="lg:w-3/3 mx-auto leading-relaxed text-base"></p>
           </div>
-        )}
-      </main>
-
+        <Card
+          number={
+            <NumberFormat
+              value={data[0].total_vaccinations}
+              displayType={"text"}
+              thousandSeparator={true}
+            />
+          }
+          title="Doses given"
+        >
+          <TestIcon />
+        </Card>
+        <Card
+          number={
+            <NumberFormat
+              value={data[0].total_vaccinations_per_hundred}
+              displayType={"text"}
+              thousandSeparator={true}
+            />
+          }
+          title="Doses per 100 people"
+        >
+          <TestIcon />
+        </Card>
+        <Card
+          number={
+            <NumberFormat
+              value={data[0].people_vaccinated}
+              displayType={"text"}
+              thousandSeparator={true}
+            />
+          }
+          title="People vaccinated"
+        >
+          <TestIcon />
+        </Card>
+        <Card
+          number={
+            <NumberFormat
+              value={data[0].people_fully_vaccinated}
+              displayType={"text"}
+              thousandSeparator={true}
+            />
+          }
+          title="People fully vaccinated"
+        >
+          <TestIcon />
+        </Card>
+      </CardCountainer>
+      <TableContainer
+        tableTitle="Country-by-country data on COVID-19 vaccinations"
+        tableDescription=""
+        data={latest}
+      ></TableContainer>
       <Footer />
-    </div>
+    </>
   );
+}
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(process.env.VACS_WORLD);
+  const data = await res.json();
+  const res2 = await fetch(process.env.VACS_ALL_LATEST_DATA);
+  const latest = await res2.json();
+
+  // Pass data to the page via props
+  return { props: { data,latest } };
+  
 }

@@ -17,6 +17,12 @@ const {
     const prodDomain = ""
     const localDomain = "http://localhost:3000"
     const env = {
+      SITE_NAME : "COVID-19 Vaccinations Tracker",
+      DEV_NAME : "Mehdi HAMIME",
+      DEV_TWITTER :"https://twitter.com/MehdiHAMIME",
+      DEV_LINKEDIN : "https://ma.linkedin.com/in/mehdihamime",
+      DEV_IG :"https://www.instagram.com/mehdihamime/",
+      DEV_FB : "https://facebook.com/medhamime",
       VACS_ALL_DATA: (() => {
         if (isDev) return localDomain + '/api/vaccinations/all'
         if (isProd) {
@@ -53,6 +59,14 @@ const {
         if (isDev) return localDomain + '/api/vaccinations/locations/all'
         if (isProd) {
           return prodDomain + '/api/vaccinations/locations/all'
+        }
+        if (isStaging) return 'http://localhost:11639'
+        return 'VACS_ALL_DATA:not (isDev,isProd && !isStaging,isProd && isStaging)'
+      })(),
+      VACS_WORLD: (() => {
+        if (isDev) return localDomain + '/api/vaccinations/worldwide'
+        if (isProd) {
+          return prodDomain + '/api/vaccinations/worldwide'
         }
         if (isStaging) return 'http://localhost:11639'
         return 'VACS_ALL_DATA:not (isDev,isProd && !isStaging,isProd && isStaging)'
