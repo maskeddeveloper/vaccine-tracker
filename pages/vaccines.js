@@ -24,9 +24,9 @@ export default function Vaccines({ data }) {
                   <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                     Location
                   </th>
-                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                  {/* <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                     ISO code
-                  </th>
+                  </th> */}
                   <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                     Vaccines
                   </th>
@@ -55,9 +55,9 @@ export default function Vaccines({ data }) {
                       <td class="border-t-2 border-gray-200 px-4 py-3">
                         {item.location}
                       </td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">
+                      {/* <td class="border-t-2 border-gray-200 px-4 py-3">
                         {item.iso_code}
-                      </td>
+                      </td> */}
                       <td class="border-t-2 border-gray-200 px-4 py-3">
                         {item.vaccines}
                       </td>

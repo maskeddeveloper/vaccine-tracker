@@ -21,9 +21,9 @@ const TableContainer = (props) => {
                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                   Location
                 </th>
-                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                {/* <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                   ISO code
-                </th>
+                </th> */}
                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                   Date
                 </th>
@@ -69,41 +69,51 @@ const TableContainer = (props) => {
                     <td class="border-t-2 border-gray-200 px-4 py-3">
                       {item[0].location}
                     </td>
-                    <td class="border-t-2 border-gray-200 px-4 py-3">
+                    {/* <td class="border-t-2 border-gray-200 px-4 py-3">
                       {item[0].iso_code}
-                    </td>
+                    </td> */}
                     <td class="border-t-2 border-gray-200 px-4 py-3">
                       {item[0].date}
                     </td>
                     <td class="border-t-2 border-gray-200 px-4 py-3">
                       {" "}
-                      
+                      {item[0].total_vaccinations == "" ? <span>No Data</span> : 
                       <NumberFormat
                         value={item[0].total_vaccinations}
                         displayType={"text"}
                         thousandSeparator={true}
-                      />{" "}
+                        
+                      />
+                    }
+                      {" "}
                     </td>
                     <td class="border-t-2 border-gray-200 px-4 py-3">
+                    {item[0].total_vaccinations_per_hundred == "" ? <span>No Data</span> : 
                       <NumberFormat
                         value={item[0].total_vaccinations_per_hundred}
                         displayType={"text"}
                         thousandSeparator={true}
+                        suffix={'%'}
                       />
+                  }
                     </td>
                     <td class="border-t-2 border-gray-200 px-4 py-3">
+                    {item[0].people_vaccinated == "" ? <span>No Data</span> : 
                       <NumberFormat
                         value={item[0].people_vaccinated}
                         displayType={"text"}
                         thousandSeparator={true}
                       />
+                }
                     </td>
                     <td class="border-t-2 border-gray-200 px-4 py-3">
+                    {item[0].people_fully_vaccinated == "" ? <span>No Data</span> : 
                       <NumberFormat
                         value={item[0].people_fully_vaccinated}
                         displayType={"text"}
                         thousandSeparator={true}
                       />
+              }
                     </td>
                   </tr>
                 ) : (

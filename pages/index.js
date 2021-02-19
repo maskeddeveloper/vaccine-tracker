@@ -6,21 +6,23 @@ import CardCountainer from "../components/CardCountainer";
 import TestIcon from "../components/icons/TestIcon";
 import TableContainer from "../components/TableContainer";
 import NumberFormat from "react-number-format";
-export default function Home({ data, latest }) {
- 
+export default function Home({ WorldData, latest }) {
+  console.log(latest)
   return (
     <>
       <SEO />
       <Nav />
       <CardCountainer>
-      <div class="flex flex-col text-center w-full mb-20">
-            <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Worldwide Coronavirus (COVID-19) Vaccinations</h1>
-            <p class="lg:w-3/3 mx-auto leading-relaxed text-base"></p>
-          </div>
+        <div class="flex flex-col text-center w-full mb-20">
+          <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
+            Worldwide Coronavirus (COVID-19) Vaccinations
+          </h1>
+          <p class="lg:w-3/3 mx-auto leading-relaxed text-base"></p>
+        </div>
         <Card
           number={
             <NumberFormat
-              value={data[0].total_vaccinations}
+              value={WorldData[0].total_vaccinations}
               displayType={"text"}
               thousandSeparator={true}
             />
@@ -32,9 +34,10 @@ export default function Home({ data, latest }) {
         <Card
           number={
             <NumberFormat
-              value={data[0].total_vaccinations_per_hundred}
+              value={WorldData[0].total_vaccinations_per_hundred}
               displayType={"text"}
               thousandSeparator={true}
+              suffix={"%"}
             />
           }
           title="Doses per 100 people"
@@ -44,7 +47,7 @@ export default function Home({ data, latest }) {
         <Card
           number={
             <NumberFormat
-              value={data[0].people_vaccinated}
+              value={WorldData[0].people_vaccinated}
               displayType={"text"}
               thousandSeparator={true}
             />
@@ -56,7 +59,7 @@ export default function Home({ data, latest }) {
         <Card
           number={
             <NumberFormat
-              value={data[0].people_fully_vaccinated}
+              value={WorldData[0].people_fully_vaccinated}
               displayType={"text"}
               thousandSeparator={true}
             />
@@ -80,11 +83,15 @@ export default function Home({ data, latest }) {
 export async function getServerSideProps() {
   // Fetch data from external API
   const res = await fetch(process.env.VACS_WORLD);
-  const data = await res.json();
-  const res2 = await fetch(process.env.VACS_ALL_LATEST_DATA);
-  const latest = await res2.json();
-
+  const WorldData = await res.json();
+  let latest =[]
+  const res2 = await fetch(process.env.VACS_ALL_LATEST_DATA).then((res) => res.json())
+  .then((data) => {
+      data.sort((a, b) => b[0].total_vaccinations_per_hundred - a[0].total_vaccinations_per_hundred);
+      latest =data
+  });
+ 
+   //sort data
   // Pass data to the page via props
-  return { props: { data,latest } };
-  
+  return { props: { WorldData, latest } };
 }
